@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: aplication_front_portefolio
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+        - name: react-app
+          image: .
+        - name: api-go
+          image: .
+
+...
+apiVersion: apps/v1
+kind: service
+metadata:
+  name: serveur-portefolio-service
+spec:
+  selector:
+    app: aplication_front_portefolio
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+...

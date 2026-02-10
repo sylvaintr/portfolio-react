@@ -1,0 +1,6 @@
+FROM alpine
+COPY . /app
+WORKDIR /app
+RUN apk add --update nodejs npm \
+    && npm install \ 
+    && npm run build \
