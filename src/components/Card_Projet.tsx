@@ -79,7 +79,9 @@ export default function Card_Projet({
             {name}
           </Typography>
 
-          <Typography>{shortDescription}</Typography>
+          <Typography variant="body1" component="p">
+            {shortDescription}
+          </Typography>
         </Box>
 
         <Box

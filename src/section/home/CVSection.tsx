@@ -28,10 +28,12 @@ export default function CVSection() {
           alignItems: "center",
           mx: "auto",
           width: "100%",
+          maxWidth: "100%",
+          overflow: "hidden",
           mb: 4,
         }}
       >
-        <Document file="cv.pdf">
+        <Document file="/cv.pdf">
           <Page
             pageNumber={1}
             renderTextLayer={false}

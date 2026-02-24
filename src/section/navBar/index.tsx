@@ -15,7 +15,10 @@ import React from "react";
 
 const pages = [
   { name: "ABOUT_ME", path: "/#ABOUT_ME" },
+  { name: "SKILLS", path: "/#SKILLS" },
   { name: "MY_PROJECTS", path: "/#MY_PROJECTS" },
+  { name: "MY_EXPERIENCE", path: "/#MY_EXPERIENCE" },
+  { name: "CV", path: "/#CV" },
 ];
 
 export default function NavBar() {
@@ -28,11 +31,19 @@ export default function NavBar() {
     setAnchorElNav(null);
   };
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#7ab2cb" }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: "#7ab2cb",
+        top: 0,
+        zIndex: (theme) => theme.zIndex.appBar,
+      }}
+    >
       <Container>
         <Toolbar disableGutters>
           <Typography
             variant="h6"
+            content="h1"
             noWrap
             sx={{
               mr: 2,

@@ -1,14 +1,40 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Card_Projet from "../../components/Card_Projet";
-import { useProjets } from "../../hook/useProjet";
+//import { useProjets } from "../../hook/useProjet";
 import { useNavigate } from "react-router-dom";
 import type { Projetshort } from "../../types/projet";
 
 export default function ProjetSection() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data: apiprojet, isLoading } = useProjets(3);
+  // const { data: apiprojet, isLoading } = useProjets(3);
+  const apiprojet = {
+    projets: [
+      {
+        id: 1,
+        name: "protfolio",
+        shortdescriptionfr:
+          "Un portfolio personnel développé avec React et Material-UI, mettant en avant mes compétences, expériences et projets de manière moderne et responsive. avec une API en Go pour la gestion des données.",
+        technologies: ["React", "Node.js", "Go", "SQL"],
+      },
+      {
+        id: 2,
+        name: "Projet B",
+        shortdescriptionfr: "Description courte du projet B",
+        technologies: ["Go", "MongoDB"],
+      },
+      {
+        id: 3,
+        name: "VHS Video Home Share",
+        shortdescriptionfr:
+          "VHS est une plateforme web interactive qui transforme le streaming solitaire en une expérience collective. En mélangeant nostalgie et technologie moderne, l'application recrée la convivialité des cinémas et des soirées télé d'autrefois.",
+        technologies: ["php", "javascript", "twig", "SQL"],
+      },
+    ],
+  };
+  const isLoading = false;
+
   return (
     <Box component="section">
       <Typography
@@ -44,7 +70,7 @@ export default function ProjetSection() {
                 />
               ))
             : null)}
-        <Button
+        {/* <Button
           variant="contained"
           sx={{ backgroundColor: "#7ab2cb", mb: 4 }}
           onClick={() => {
@@ -54,7 +80,7 @@ export default function ProjetSection() {
           <Typography sx={{ textDecoration: "none" }}>
             {t("SEE_ALL_PROJECTS")}
           </Typography>
-        </Button>
+        </Button> */}
       </Stack>
     </Box>
   );

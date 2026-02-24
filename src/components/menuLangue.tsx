@@ -30,8 +30,8 @@ export default function MenuLangue() {
         }}
       >
         <img
-          src={`drapeau/${i18n.language}.webp`}
-          alt={`drapeau ${i18n.language}`}
+          src={`/drapeau/${i18n.language}.webp`}
+          alt={`drapeau/${i18n.language}.webp`}
           style={{ width: "30px", height: "20px", marginRight: "8px" }}
         />
       </Button>
@@ -57,7 +57,7 @@ export default function MenuLangue() {
           }}
         >
           <img
-            src="drapeau/fr.webp"
+            src="/drapeau/fr.webp"
             alt={t("FRENCH")}
             style={{ width: "30px", height: "20px", marginRight: "8px" }}
           />
@@ -70,7 +70,7 @@ export default function MenuLangue() {
           }}
         >
           <img
-            src="drapeau/en.webp"
+            src="/drapeau/en.webp"
             alt={t("ENGLISH")}
             style={{ width: "30px", height: "20px", marginRight: "8px" }}
           />
