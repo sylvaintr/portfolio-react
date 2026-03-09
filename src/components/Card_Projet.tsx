@@ -51,7 +51,7 @@ export default function Card_Projet({
             objectFit: "cover",
           }}
         >
-          <source src={`./video_projet/projet_${id}.mp4`} type="video/mp4" />
+          <source src={`./video_projet/projet_${id}.webm`} type="video/webm" />
           Votre navigateur ne supporte pas les vidéos.
         </video>
       </Box>

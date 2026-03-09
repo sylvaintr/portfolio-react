@@ -23,27 +23,35 @@ import { useTranslation } from "react-i18next";
 // Tes données
 const experiences = [
   {
-    title: "Développeur Full Stack",
-    company: "Freelance",
-    date: "2022 - Présent",
+    title: "Développeur Front-end (stage 4 mois) ",
+    company: "TotalEnergies",
+    date: "mars 2026 - juin 2026",
     icon: <LaptopMacIcon />,
-    technos: ["React", "Node.js", "Docker"],
-    desc: "Développement d'applications web complètes et déploiement CI/CD.",
+    technos: ["React", "Node.js", "typescript"],
+    desc: "Développement d'applications web pour  aider la mise en place du finOps",
   },
   {
-    title: "Développeur Front-end",
-    company: "Agence Web Exemple",
-    date: "2020 - 2022",
+    title: "Développeur Front-end (stage 2 mois)",
+    company: "TotalEnergies",
+    date: "avril 2025 - juin 2025",
     icon: <WorkIcon />,
-    technos: ["TypeScript", "React", "Sass"],
-    desc: "Création d'interfaces responsives et migration Angular vers React.",
+    technos: ["TypeScript", "React", "Material UI"],
+    desc: "Développement d'applications web pour  aider la mise en place du finOps",
   },
   {
     title: "BUT Informatique",
     company: "IUT de Bayonne",
-    date: "2018 - 2021",
+    date: "2023 - 2025",
     icon: <SchoolIcon />,
-    technos: ["Java", "SQL", "Algo"],
+    technos: [
+      "Java",
+      "SQL",
+      "Algo",
+      "Gestion de projet",
+      "Git",
+      "Docker",
+      "c/c++",
+    ],
     desc: "Apprentissage des bases de l'ingénierie logicielle et gestion de projet.",
   },
 ];
@@ -66,6 +74,7 @@ export default function ExperienceTimeline() {
           py: 1,
           mb: 4,
           borderLeft: "10px solid #d8d7d7",
+          scrollMarginTop: "80px",
         }}
       >
         {t("MY_EXPERIENCE")}

@@ -17,6 +17,7 @@ export default function CVSection() {
           py: 1,
           mb: 4,
           borderLeft: "10px solid #d8d7d7",
+          scrollMarginTop: "80px",
         }}
       >
         {t("CV")}

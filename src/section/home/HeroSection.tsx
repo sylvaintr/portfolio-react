@@ -58,7 +58,7 @@ export default function HeroSection() {
         <Stack
           direction={{ xs: "column-reverse", md: "row" }}
           spacing={6}
-          alignItems="center"
+          alignItems={{ xs: "center", md: "stretch" }}
           justifyContent="space-between"
         >
           {/* Texte à gauche */}
@@ -222,22 +222,183 @@ export default function HeroSection() {
             </Stack>
           </Box>
 
-          {/* Image / Avatar à droite */}
+          {/* Image / Graphique à droite */}
           <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
-            <Box
-              sx={{
-                width: { xs: 250, md: 350 },
-                height: { xs: 250, md: 350 },
-                borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%",
-                bgcolor: "white",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-                overflow: "hidden",
-                border: `4px solid ${primaryBlue}`,
-                backgroundImage: "url('/avatar.jpeg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
+            <svg
+              viewBox="0 0 600 600"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="xMidYMid meet"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Graphic"
+              style={{ display: "block" }}
+            >
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#7ab2cb">
+                    <animate
+                      attributeName="stop-color"
+                      values="#7ab2cb;#9b59b6;#7ab2cb"
+                      dur="6s"
+                      repeatCount="indefinite"
+                    />
+                  </stop>
+                  <stop offset="100%" stopColor="#f76c6c">
+                    <animate
+                      attributeName="stop-color"
+                      values="#bfeaf8;#f76c6c;#bfeaf8"
+                      dur="6s"
+                      repeatCount="indefinite"
+                    />
+                  </stop>
+                </linearGradient>
+
+                <radialGradient id="rg" cx="50%" cy="30%" r="60%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+                  <stop offset="60%" stopColor="#ffd166" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#ffd166" stopOpacity="0" />
+                </radialGradient>
+
+                <filter id="fblur" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="8" result="b" />
+                  <feMerge>
+                    <feMergeNode in="b" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              {/* Background soft radial light */}
+              <rect
+                x="0"
+                y="0"
+                width="600"
+                height="600"
+                fill="url(#rg)"
+                opacity="0.9"
+              />
+
+              <g transform="translate(300,300)">
+                <g filter="url(#glow)">
+                  <path
+                    d="M150 -140C200 -100 230 -50 240 10C250 70 220 120 170 150C120 180 60 190 10 170C-40 150 -90 110 -130 70C-170 30 -210 -10 -210 -60C-210 -110 -170 -150 -120 -180C-70 -210 -10 -220 50 -200C110 -180 100 -180 150 -140Z"
+                    fill="url(#g1)"
+                    opacity="0.95"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      type="scale"
+                      values="1;1.05;1"
+                      dur="6s"
+                      repeatCount="indefinite"
+                    />
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      values="0 0; 0 -18; 0 0"
+                      dur="6s"
+                      additive="sum"
+                      repeatCount="indefinite"
+                    />
+                  </path>
+                </g>
+
+                <g transform="rotate(0)">
+                  <path
+                    d="M120 -120C160 -90 190 -50 200 -10C210 30 190 70 150 100C110 130 60 150 10 140C-40 130 -80 100 -120 70C-160 40 -190 0 -190 -40C-190 -80 -160 -120 -120 -140C-80 -160 -40 -170 0 -160C40 -150 80 -140 120 -120Z"
+                    fill="#6ee7b7"
+                    opacity="0.18"
+                    filter="url(#fblur)"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      values="0;15;0"
+                      dur="10s"
+                      repeatCount="indefinite"
+                    />
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      values="0 0; 12 6; 0 0"
+                      dur="8s"
+                      additive="sum"
+                      repeatCount="indefinite"
+                    />
+                  </path>
+                </g>
+
+                <g>
+                  <circle
+                    cx="-160"
+                    cy="-120"
+                    r="12"
+                    fill="#ffd166"
+                    opacity="0.95"
+                  >
+                    <animate
+                      attributeName="r"
+                      values="8;14;8"
+                      dur="3s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  <circle cx="160" cy="140" r="8" fill="#f76c6c" opacity="0.95">
+                    <animate
+                      attributeName="cx"
+                      values="160;140;160"
+                      dur="4s"
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="cy"
+                      values="140;120;140"
+                      dur="4s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+
+                <g fill="#fff" opacity="0.9">
+                  <circle r="3" cx="-40" cy="-10">
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      values="0 0; 40 -20; 0 0"
+                      dur="2.6s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  <circle r="2" cx="80" cy="20">
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      values="0 0; -60 30; 0 0"
+                      dur="3.2s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  <circle r="2.5" cx="20" cy="90" fill="#e0f7fa">
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      values="0 0; -20 -60; 0 0"
+                      dur="2.8s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+              </g>
+            </svg>
           </Box>
         </Stack>
       </Container>

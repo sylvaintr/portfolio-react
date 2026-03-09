@@ -4,6 +4,7 @@ import HeroSection from "./home/HeroSection";
 import ProjetSection from "./home/ProjetSection";
 import ExperienceSection from "./home/ExperienceSection";
 import SkillsSection from "./home/SkillsSection";
+import RetourEnHaut from "../components/RetourEnHaut";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <ProjetSection />
       <ExperienceSection />
       <CVSection />
+      <RetourEnHaut />
     </>
   );
 }

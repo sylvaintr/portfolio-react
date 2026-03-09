@@ -55,9 +55,10 @@ export default function NavBar() {
               textDecoration: "none",
               flexGrow: 1,
             }}
-            component="div"
+            component="a"
+            href="/"
           >
-            Portfolio TROUILH Sylvain
+            Portfolio {import.meta.env.VITE_NAME}
           </Typography>
 
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -117,7 +118,7 @@ export default function NavBar() {
               textDecoration: "none",
             }}
           >
-            TROUILH Sylavin
+            {import.meta.env.VITE_NAME}
           </Typography>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

@@ -1,6 +1,5 @@
-import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useProjet } from "../hook/useProjet";
+// import { useProjet } from "../hook/useProjet";
 import {
   Box,
   Container,
@@ -10,48 +9,19 @@ import {
   CircularProgress,
   Stack,
   Paper,
-  Grid,
   Divider,
 } from "@mui/material";
+import Grid from "../components/GridWrapper";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LanguageIcon from "@mui/icons-material/Language";
+import { apiprojet } from "../types/projet.ts";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Projet() {
   const { id } = useParams();
   const navigate = useNavigate(); // Permet de gérer le bouton "Retour"
-  const apiprojet = {
-    projets: [
-      {
-        id: 1,
-        name: "protfolio",
-        shortdescriptionfr:
-          "Un portfolio personnel développé avec React et Material-UI, mettant en avant mes compétences, expériences et projets de manière moderne et responsive. avec une API en Go pour la gestion des données.",
-        technologies: ["React", "Node.js", "Go", "SQL"],
-        longdescriptionfr:
-          "Ce projet de portfolio personnel a été conçu pour présenter mes compétences, expériences et réalisations de manière professionnelle et attrayante. Développé avec React pour une interface utilisateur dynamique et Material-UI pour un design moderne, il offre une navigation fluide et responsive sur tous les appareils. L'API en Go gère efficacement les données des projets, assurant une performance optimale. Ce portfolio met en avant mes projets phares, mes compétences techniques et mon parcours professionnel, offrant aux visiteurs une vue d'ensemble complète de mon expertise en développement web.",
-        shortdescriptionen:
-          "A personal portfolio developed with React and Material-UI, showcasing my skills, experiences, and projects in a modern and responsive way. It includes a Go API for data management.",
-        longdescriptionen:
-          "This personal portfolio project was designed to showcase my skills, experiences, and achievements in a professional and attractive manner. Developed with React for a dynamic user interface and Material-UI for a modern design, it offers smooth and responsive navigation across all devices. The Go API efficiently manages project data, ensuring optimal performance. This portfolio highlights my key projects, technical skills, and professional background, providing visitors with a comprehensive overview of my expertise in web development.",
-        linkGithub: "https://github.com/sylvaintr/portfolio-react",
-        linkWeb: "http://localhost:5173/",
-      },
-      {
-        id: 2,
-        name: "Projet B",
-        shortdescriptionfr: "Description courte du projet B",
-        technologies: ["Go", "MongoDB"],
-      },
-      {
-        id: 3,
-        name: "VHS Video Home Share",
-        shortdescriptionfr:
-          "VHS est une plateforme web interactive qui transforme le streaming solitaire en une expérience collective. En mélangeant nostalgie et technologie moderne, l'application recrée la convivialité des cinémas et des soirées télé d'autrefois.",
-        technologies: ["php", "javascript", "twig", "SQL"],
-      },
-    ],
-  };
 
   const isLoading = false;
   const data = apiprojet.projets.find((p) => p.id === Number(id));
@@ -113,12 +83,52 @@ export default function Projet() {
             border: "1px solid #eef2f6",
             bgcolor: "white",
             boxShadow: "0 12px 30px rgba(0,0,0,0.03)",
+            position: "relative",
+            overflow: "visible",
+            // Espace à droite pour éviter que le contenu soit masqué par la vidéo flottante
+            pr: { md: "420px" },
             // overflow: "hidden" retiré ici pour éviter de couper les ombres
           }}
         >
+          {/* Vidéo flottante en haut à droite du Paper */}
+          <Box
+            sx={{
+              // En petit écran la vidéo s'insère dans le flux (au-dessus du contenu),
+              // en grand écran elle est absolue en haut à droite.
+              position: { xs: "relative", md: "absolute" },
+              top: { md: 20 },
+              right: { md: 20 },
+              width: { xs: "100%", sm: "45%", md: 360 },
+              maxHeight: { xs: 220, md: 300 },
+              borderRadius: 2,
+              overflow: "hidden",
+              boxShadow: "0 8px 25px rgba(0,0,0,0.12)",
+              zIndex: 2,
+              mb: { xs: 3, md: 0 },
+            }}
+          >
+            <video
+              autoPlay
+              loop
+              muted
+              controls
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "block",
+                objectFit: "cover",
+              }}
+            >
+              <source
+                src={`/video_projet/projet_${id}.webm`}
+                type="video/webm"
+              />
+              Votre navigateur ne supporte pas les vidéos.
+            </video>
+          </Box>
           <Grid container spacing={4} alignItems="flex-start">
             {/* COLONNE GAUCHE (Texte) : Prend 7 colonnes sur 12 */}
-            <Grid item xs={12} md={7}>
+            <Grid xs={12} md={7} component="div">
               <Typography
                 variant="h2"
                 sx={{
@@ -139,40 +149,7 @@ export default function Projet() {
               </Typography>
             </Grid>
 
-            {/* COLONNE DROITE (Vidéo) : Prend 5 colonnes sur 12 */}
-            <Grid item xs={12} md={5}>
-              <Box
-                sx={{
-                  width: "100%",
-                  borderRadius: 3,
-                  overflow: "hidden",
-                  boxShadow: "0 8px 25px rgba(0,0,0,0.08)",
-                  bgcolor: "#444", // Fond sombre élégant
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  controls
-                  style={{
-                    width: "100%",
-                    maxHeight: "300px", // Hauteur max de la vidéo
-                    display: "block",
-                    objectFit: "contain",
-                  }}
-                >
-                  <source
-                    src={`/video_projet/projet_${id}.mp4`}
-                    type="video/mp4"
-                  />
-                  Votre navigateur ne supporte pas les vidéos.
-                </video>
-              </Box>
-            </Grid>
+            {/* La vidéo est maintenant flottante en haut à droite du Paper */}
           </Grid>
 
           <Divider sx={{ my: 6, borderColor: "#f0f0f0" }} />
@@ -187,14 +164,16 @@ export default function Projet() {
             </Typography>
             <Typography
               variant="body1"
+              component="div"
               sx={{
                 color: "#555",
                 lineHeight: 1.8,
                 fontSize: "1.05rem",
-                whiteSpace: "pre-line",
               }}
             >
-              {data.longdescriptionfr}
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {data.longdescriptionfr}
+              </ReactMarkdown>
             </Typography>
           </Box>
 
@@ -202,7 +181,7 @@ export default function Projet() {
           {/* J'ai utilisé alignItems="stretch" pour que les deux cartes aient la même hauteur naturellement */}
           <Grid container spacing={4} alignItems="stretch">
             {/* TECHNOLOGIES */}
-            <Grid item xs={12} md={6}>
+            <Grid xs={12} md={6} component="div">
               <Paper
                 elevation={0}
                 sx={{
@@ -246,7 +225,7 @@ export default function Projet() {
             </Grid>
 
             {/* LIENS */}
-            <Grid item xs={12} md={6}>
+            <Grid xs={12} md={6} component="div">
               <Paper
                 elevation={0}
                 sx={{
@@ -264,12 +243,7 @@ export default function Projet() {
                 >
                   Liens du projet
                 </Typography>
-                <Stack
-                  spacing={2}
-                  direction={{ xs: "column", sm: "row" }}
-                  flexWrap="wrap"
-                  useFlexGap
-                >
+                <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap>
                   {data.linkWeb && (
                     <Button
                       variant="contained"
