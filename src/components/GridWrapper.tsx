@@ -1,5 +1,5 @@
-import { Grid as MuiGrid } from "@mui/material";
+import Grid from "@mui/system/Grid";
 
 export default function GridWrapper(props: any) {
-  return <MuiGrid {...props} />;
+  return <Grid {...props} />;
 }

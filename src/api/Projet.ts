@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { ProjetCreate, Projetfull, Projets, Projetshort } from "../../types/projet";
+import type { ProjetCreate, Projetfull, Projets, Projetshort } from "../types/projet";
 
 
 export async function getProjets(limit?: number, page?: number): Promise<Projets> {

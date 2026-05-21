@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createProjet, getProjet, getProjets, updateProjet } from '../assets/api/Projet';
-import type { ProjetCreate } from '../types/projet';
+import { createProjet, getProjet, getProjets, updateProjet } from '../api/Projet';
+import type { ProjetCreate, Projetshort } from '../types/projet';
 
 
 export function useProjets(limit?: number, page?: number) {
@@ -26,17 +26,17 @@ export default function useCreateProjet() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['projets'] });
         },
-        
+
     })
 }
 
 export function useEditProjet() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (projet: any) => updateProjet(projet),
+        mutationFn: (projet: Projetshort) => updateProjet(projet),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['projets'] });
         },
-        
+
     })
 }

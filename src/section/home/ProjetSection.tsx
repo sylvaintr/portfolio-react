@@ -1,17 +1,15 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Card_Projet from "../../components/Card_Projet";
-//import { useProjets } from "../../hook/useProjet";
-//import { useNavigate } from "react-router-dom";
+import { useProjets } from "../../hook/useProjet";
+import { useNavigate } from "react-router-dom";
 import type { Projetshort } from "../../types/projet";
-import { apiprojet } from "../../types/projet.ts";
 
 export default function ProjetSection() {
   const { t } = useTranslation();
-  //const navigate = useNavigate();
-  // const { data: apiprojet, isLoading } = useProjets(3);
-
-  const isLoading = false;
+  const navigate = useNavigate();
+  const { data: apiprojet } = useProjets(3);
+  const projets = Array.isArray(apiprojet?.data) ? apiprojet.data : [];
 
   return (
     <Box component="section">
@@ -36,20 +34,19 @@ export default function ProjetSection() {
           mb: 4,
         }}
       >
-        {!isLoading &&
-          (Array.isArray(apiprojet?.projets)
-            ? apiprojet.projets.map((projet: Projetshort) => (
-                <Card_Projet
-                  key={projet.id}
-                  name={projet.name}
-                  shortDescription={projet.shortdescriptionfr}
-                  technologies={projet.technologies ? projet.technologies : []}
-                  id={projet.id}
-                  left={projet.id % 2 === 0}
-                />
-              ))
-            : null)}
-        {/* <Button
+        {Array.isArray(projets)
+          ? projets.map((projet: Projetshort) => (
+              <Card_Projet
+                key={projet.id}
+                name={projet.name}
+                shortDescription={projet.shortdescriptionfr}
+                technologies={projet.technologies ? projet.technologies : []}
+                id={projet.id}
+                left={projet.id % 2 === 0}
+              />
+            ))
+          : null}
+        <Button
           variant="contained"
           sx={{ backgroundColor: "#7ab2cb", mb: 4 }}
           onClick={() => {
@@ -59,7 +56,7 @@ export default function ProjetSection() {
           <Typography sx={{ textDecoration: "none" }}>
             {t("SEE_ALL_PROJECTS")}
           </Typography>
-        </Button> */}
+        </Button>
       </Stack>
     </Box>
   );
