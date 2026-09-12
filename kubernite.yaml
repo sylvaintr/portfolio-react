@@ -18,6 +18,7 @@ spec:
       containers:
         - name: nginx
           image: front_portefolio:latest
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
@@ -25,13 +26,13 @@ spec:
             - name: https
               containerPort: 443
               protocol: TCP
-
-...
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: serveur-portefolio-service
 spec:
+  # On supprime type: LoadBalancer. Le type par défaut est ClusterIP.
   selector:
     app: aplication_front_portefolio
   ports:
@@ -43,5 +44,45 @@ spec:
       protocol: TCP
       port: 443
       targetPort: 443
-  type: LoadBalancer
-...
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portefolio-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # L'annotation kubernetes.io/ingress.class est obsolète, on utilise spec.ingressClassName à la place
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - portefolio.sylvaintrouilh.fr
+    secretName: portefolio-tls-secret
+  rules:
+  - host: portefolio.sylvaintrouilh.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: serveur-portefolio-service
+            port:
+              number: 80
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: sylvain.trouilh@hotmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: traefik
