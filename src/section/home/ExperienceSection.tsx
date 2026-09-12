@@ -2,7 +2,7 @@ import {
   Box,
   Typography,
   Paper,
-  //Chip,
+  Chip,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -15,11 +15,12 @@ import {
   TimelineDot,
   TimelineOppositeContent,
 } from "@mui/lab";
-/* import LaptopMacIcon from "@mui/icons-material/LaptopMac";
+import LaptopMacIcon from "@mui/icons-material/LaptopMac";
 import SchoolIcon from "@mui/icons-material/School";
-import WorkIcon from "@mui/icons-material/Work"; */
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import WorkIcon from "@mui/icons-material/Work";
 import { useTranslation } from "react-i18next";
-import { useExperiences } from "../../hook/uesExperience";
+import { useExperiences } from "../../hook/useExperience";
 
 // Tes données
 /* const experiences = [
@@ -57,14 +58,29 @@ import { useExperiences } from "../../hook/uesExperience";
   },
 ];
  */
+const primaryBlue = "#7ab2cb";
+
+function getExperienceIcon(type: string) {
+  switch (String(type).toLowerCase()) {
+    case "job":
+      return <WorkIcon fontSize="small" />;
+    case "internship":
+      return <LaptopMacIcon fontSize="small" />;
+    case "volunteer":
+      return <VolunteerActivismIcon fontSize="small" />;
+    default:
+      return <SchoolIcon fontSize="small" />;
+  }
+}
+
 export default function ExperienceTimeline() {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // Détecte si on est sur mobile pour changer l'affichage
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const primaryBlue = "#7ab2cb";
   const { data: apiExperiences } = useExperiences();
-  console.log(apiExperiences, "experiences api");
+  // Sélectionne la description selon la langue active (repli sur le français)
+  const isEnglish = i18n.language?.toLowerCase().startsWith("en");
 
   return (
     <Box sx={{ bgcolor: "#fff" }} id="experience">
@@ -101,6 +117,7 @@ export default function ExperienceTimeline() {
               }}
             >
               {exp.dateS}
+              {exp.dateE ? ` — ${exp.dateE}` : ""}
             </TimelineOppositeContent>
 
             <TimelineSeparator>
@@ -112,7 +129,7 @@ export default function ExperienceTimeline() {
                   boxShadow: "0 0 0 4px rgba(122, 178, 203, 0.2)", // Petit effet de halo autour du point
                 }}
               >
-                {exp.icon}
+                {getExperienceIcon(exp.type)}
               </TimelineDot>
               <TimelineConnector sx={{ bgcolor: primaryBlue }} />
             </TimelineSeparator>
@@ -145,6 +162,7 @@ export default function ExperienceTimeline() {
                     }}
                   >
                     {exp.dateS}
+                    {exp.dateE ? ` — ${exp.dateE}` : ""}
                   </Typography>
                 )}
 
@@ -159,21 +177,24 @@ export default function ExperienceTimeline() {
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary" paragraph>
-                  {exp.descriptionFr}
+                  {(isEnglish ? exp.descriptionEn : exp.descriptionFr) ||
+                    exp.descriptionFr}
                 </Typography>
 
-                <Box
-                  sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 1 }}
-                >
-                  {/* {exp.technos.map((tech, i) => (
-                    <Chip
-                      key={i}
-                      label={tech}
-                      size="small"
-                      sx={{ bgcolor: "#f0f4f8", color: "#555" }}
-                    />
-                  ))} */}
-                </Box>
+                {exp.technologies && exp.technologies.length > 0 && (
+                  <Box
+                    sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 1 }}
+                  >
+                    {exp.technologies.map((tech, i) => (
+                      <Chip
+                        key={i}
+                        label={tech}
+                        size="small"
+                        sx={{ bgcolor: "#f0f4f8", color: "#555" }}
+                      />
+                    ))}
+                  </Box>
+                )}
               </Paper>
             </TimelineContent>
           </TimelineItem>

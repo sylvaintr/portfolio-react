@@ -61,7 +61,7 @@ export default function SkillsSection() {
       <Stack spacing={4} sx={{ pl: 12 }}>
         <Grid container spacing={5} sx={{ mt: 2 }}>
           {skillCategories.map((category, index) => (
-            <Grid xs={12} md={4} key={index} component="div">
+            <Grid size={{ xs: 12, md: 4 }} key={index} component="div">
               <Box>
                 <Typography
                   variant="h6"

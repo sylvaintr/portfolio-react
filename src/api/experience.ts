@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Experiencecreate, Experiences } from "../types/experience";
+import type { Experiencecreate, ExperienceFull, Experiences } from "../types/experience";
 
 
 export async function getExperiences(): Promise<Experiences> {
@@ -8,7 +8,7 @@ export async function getExperiences(): Promise<Experiences> {
     return experiences.data;
 }
 
-export async function getExperience(id: number): Promise<Experiencecreate> {
+export async function getExperience(id: number): Promise<ExperienceFull> {
     const url = import.meta.env.VITE_API_URL + "/experience/" + id;
     const experience = await axios.get(url);
     return experience.data;

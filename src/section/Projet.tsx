@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-// import { useProjet } from "../hook/useProjet";
+import { useProjet } from "../hook/useProjet";
 import {
   Box,
   Container,
@@ -15,7 +15,6 @@ import Grid from "../components/GridWrapper";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LanguageIcon from "@mui/icons-material/Language";
-import { apiprojet } from "../types/projet.ts";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -23,9 +22,7 @@ export default function Projet() {
   const { id } = useParams();
   const navigate = useNavigate(); // Permet de gérer le bouton "Retour"
 
-  const isLoading = false;
-  const data = apiprojet.projets.find((p) => p.id === Number(id));
-
+  const { data, isLoading } = useProjet(id);
   const primaryBlue = "#7ab2cb";
 
   // 1. ÉTAT DE CHARGEMENT PROPRE
@@ -128,7 +125,7 @@ export default function Projet() {
           </Box>
           <Grid container spacing={4} alignItems="flex-start">
             {/* COLONNE GAUCHE (Texte) : Prend 7 colonnes sur 12 */}
-            <Grid xs={12} md={7} component="div">
+            <Grid size={{ xs: 12, md: 7 }} component="div">
               <Typography
                 variant="h2"
                 sx={{
@@ -181,7 +178,7 @@ export default function Projet() {
           {/* J'ai utilisé alignItems="stretch" pour que les deux cartes aient la même hauteur naturellement */}
           <Grid container spacing={4} alignItems="stretch">
             {/* TECHNOLOGIES */}
-            <Grid xs={12} md={6} component="div">
+            <Grid size={{ xs: 12, md: 6 }} component="div">
               <Paper
                 elevation={0}
                 sx={{
@@ -225,7 +222,7 @@ export default function Projet() {
             </Grid>
 
             {/* LIENS */}
-            <Grid xs={12} md={6} component="div">
+            <Grid size={{ xs: 12, md: 6 }} component="div">
               <Paper
                 elevation={0}
                 sx={{

@@ -25,10 +25,10 @@ export type Experiencecreate = {
 export type Experiences = arrayApi<ExperienceFull>;
 
 
-export enum ExperienceType {
-    JOB = "job",
-    INTERNSHIP = "internship",
-    VOLUNTEER = "volunteer",
-    OTHER = "other"
-}
+export const ExperienceType = {
+    JOB: "job",
+    INTERNSHIP: "internship",
+    VOLUNTEER: "volunteer",
+    OTHER: "other"
+} as const;
 
