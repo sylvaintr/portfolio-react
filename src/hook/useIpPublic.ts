@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchIpPublic } from '../assets/api/ipPublic';
+import { fetchIpPublic } from '../api/ipPublic';
 
 
 export function useIpPublic() {

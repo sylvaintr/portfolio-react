@@ -20,4 +20,10 @@ i18n
     defaultNS: 'translation'
   });
 
+// Synchronise l'attribut lang du document avec la langue active (SEO/accessibilité)
+i18n.on('languageChanged', (lng: string) => {
+  document.documentElement.lang = lng;
+});
+document.documentElement.lang = i18n.language;
+
 export default i18n;

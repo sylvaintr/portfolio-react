@@ -17,11 +17,13 @@ import {
 } from "@mui/lab";
 import LaptopMacIcon from "@mui/icons-material/LaptopMac";
 import SchoolIcon from "@mui/icons-material/School";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import WorkIcon from "@mui/icons-material/Work";
 import { useTranslation } from "react-i18next";
+import { useExperiences } from "../../hook/useExperience";
 
 // Tes données
-const experiences = [
+/* const experiences = [
   {
     title: "Développeur Front-end (stage 4 mois) ",
     company: "TotalEnergies",
@@ -55,13 +57,30 @@ const experiences = [
     desc: "Apprentissage des bases de l'ingénierie logicielle et gestion de projet.",
   },
 ];
+ */
+const primaryBlue = "#7ab2cb";
+
+function getExperienceIcon(type: string) {
+  switch (String(type).toLowerCase()) {
+    case "job":
+      return <WorkIcon fontSize="small" />;
+    case "internship":
+      return <LaptopMacIcon fontSize="small" />;
+    case "volunteer":
+      return <VolunteerActivismIcon fontSize="small" />;
+    default:
+      return <SchoolIcon fontSize="small" />;
+  }
+}
 
 export default function ExperienceTimeline() {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // Détecte si on est sur mobile pour changer l'affichage
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const primaryBlue = "#7ab2cb";
+  const { data: apiExperiences } = useExperiences();
+  // Sélectionne la description selon la langue active (repli sur le français)
+  const isEnglish = i18n.language?.toLowerCase().startsWith("en");
 
   return (
     <Box sx={{ bgcolor: "#fff" }} id="experience">
@@ -86,9 +105,8 @@ export default function ExperienceTimeline() {
         position={isMobile ? "right" : "alternate"}
         sx={{ bgcolor: "#fafbfc" }}
       >
-        {experiences.map((exp, index) => (
+        {apiExperiences?.data.map((exp, index) => (
           <TimelineItem key={index}>
-            {/* LA DATE (s'affiche en face du contenu sur PC) */}
             <TimelineOppositeContent
               sx={{
                 m: "auto 0",
@@ -98,10 +116,10 @@ export default function ExperienceTimeline() {
                 fontSize: "1.1rem",
               }}
             >
-              {exp.date}
+              {exp.dateS}
+              {exp.dateE ? ` — ${exp.dateE}` : ""}
             </TimelineOppositeContent>
 
-            {/* LE SÉPARATEUR CENTRAL */}
             <TimelineSeparator>
               <TimelineConnector sx={{ bgcolor: primaryBlue }} />
               <TimelineDot
@@ -111,12 +129,11 @@ export default function ExperienceTimeline() {
                   boxShadow: "0 0 0 4px rgba(122, 178, 203, 0.2)", // Petit effet de halo autour du point
                 }}
               >
-                {exp.icon}
+                {getExperienceIcon(exp.type)}
               </TimelineDot>
               <TimelineConnector sx={{ bgcolor: primaryBlue }} />
             </TimelineSeparator>
 
-            {/* LE CONTENU (LA CARTE) */}
             <TimelineContent sx={{ py: "12px", px: 2 }}>
               <Paper
                 elevation={3}
@@ -134,7 +151,6 @@ export default function ExperienceTimeline() {
                   borderTop: `4px solid ${primaryBlue}`, // Petite touche de couleur en haut de la carte
                 }}
               >
-                {/* Sur mobile, on affiche la date DANS la carte car il n'y a pas de place à côté */}
                 {isMobile && (
                   <Typography
                     variant="caption"
@@ -145,7 +161,8 @@ export default function ExperienceTimeline() {
                       fontWeight: "bold",
                     }}
                   >
-                    {exp.date}
+                    {exp.dateS}
+                    {exp.dateE ? ` — ${exp.dateE}` : ""}
                   </Typography>
                 )}
 
@@ -160,22 +177,24 @@ export default function ExperienceTimeline() {
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary" paragraph>
-                  {exp.desc}
+                  {(isEnglish ? exp.descriptionEn : exp.descriptionFr) ||
+                    exp.descriptionFr}
                 </Typography>
 
-                {/* Chips technologies */}
-                <Box
-                  sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 1 }}
-                >
-                  {exp.technos.map((tech, i) => (
-                    <Chip
-                      key={i}
-                      label={tech}
-                      size="small"
-                      sx={{ bgcolor: "#f0f4f8", color: "#555" }}
-                    />
-                  ))}
-                </Box>
+                {exp.technologies && exp.technologies.length > 0 && (
+                  <Box
+                    sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 1 }}
+                  >
+                    {exp.technologies.map((tech, i) => (
+                      <Chip
+                        key={i}
+                        label={tech}
+                        size="small"
+                        sx={{ bgcolor: "#f0f4f8", color: "#555" }}
+                      />
+                    ))}
+                  </Box>
+                )}
               </Paper>
             </TimelineContent>
           </TimelineItem>

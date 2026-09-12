@@ -1,16 +1,29 @@
 import axios from "axios";
-import type { ProjetCreate, Projetfull, Projets, Projetshort } from "../../types/projet";
+import type { ProjetCreate, ProjetEdit, Projetfull, Projets, Projetshort } from "../types/projet";
 
 
 export async function getProjets(limit?: number, page?: number): Promise<Projets> {
     const url = import.meta.env.VITE_API_URL + "/projets";
-    const projets = await axios.get(url, {
+    const response = await axios.get(url, {
         params: {
             nb: limit,
             page: page,
         },
     });
-    return projets.data;
+
+    // Normalise la réponse de l'API pour exposer la forme { data, count }.
+    // Accepte { data, count }, { projets, count } ou un simple tableau.
+    const body = response.data;
+    if (body && Array.isArray(body.data)) {
+        return body as Projets;
+    }
+    if (body && Array.isArray(body.projets)) {
+        return { data: body.projets, count: body.count ?? body.projets.length };
+    }
+    return {
+        data: Array.isArray(body) ? body : [],
+        count: Array.isArray(body) ? body.length : 0,
+    };
 }
 
 export async function getProjet(id: number): Promise<Projetfull> {
@@ -30,7 +43,7 @@ export async function deleteProjet(id: number): Promise<void> {
     await axios.delete(url);
 }
 
-export async function updateProjet(projet: Projetshort): Promise<Projetshort> {
+export async function updateProjet(projet: ProjetEdit): Promise<Projetfull> {
     const url = import.meta.env.VITE_API_URL + "/projet/" + projet.id;
     const updatedprojet = await axios.put(url, projet);
     return updatedprojet.data;

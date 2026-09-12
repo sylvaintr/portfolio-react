@@ -25,7 +25,7 @@ export default function AllProjet() {
       sx={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}
     >
       {projets &&
-        projets.projets.map((projet) => (
+        projets.data.map((projet) => (
           <Card sx={{ minWidth: 275, mt: 5 }} key={projet.id}>
             <CardContent>
               <Box
